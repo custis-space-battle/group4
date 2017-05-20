@@ -8,7 +8,7 @@ namespace BattleShip
 {
     public class LetsShoot
     {
-        private bool[,] Map = new bool[9, 9] ;
+        private bool[,] Map = new bool[10,10] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
         
@@ -49,14 +49,18 @@ namespace BattleShip
                             Cell CurCell = Next(Target, i);
                             if (CurCell != null) {PriorShoot.Enqueue(CurCell); }
                         }
-                    //}
-                break;
+                  //  Console.WriteLine("Количество элементов в очереди ранений= " + PriorShoot.Count + "\n");
+                    break;
                 case "KILL":
                     while(PriorShoot.Count>0)
                     {
                         Cell CurCell = PriorShoot.Dequeue();
                         Map[CurCell.X, CurCell.Y] = true;
+                     //   Console.WriteLine("Количество элементов в очереди убийств = " + PriorShoot.Count + "\n");
                     }
+                    break;
+
+                default:
                     break;
             }
         }
