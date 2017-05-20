@@ -13,6 +13,7 @@ namespace BattleShip
         private Queue<Cell> PriorShoot;
         private int ShipsLeft;
         private int CurShipSize;
+        private int MissCount;
 
         public  LetsShoot()
         {
@@ -20,6 +21,7 @@ namespace BattleShip
             PriorShoot = new Queue<Cell>();
             ShipsLeft = 6;
             CurShipSize = 0;
+            MissCount = 0;
             //OldIns();
             TryCreate();
         }
@@ -34,11 +36,17 @@ namespace BattleShip
             }
             switch (Ans)
             {
+                case "MISS":
+                    MissCount += 1;
+                    if (MissCount > 6) { Reload2(); }
+                    break;
                 case "HIT":
+                    MissCount = 0;
                     CurShipSize += 1;
                     HitMe(Target);
                 break;
                 case "KILL":
+                    MissCount = 0;
                     if (CurShipSize > 0) { ShipsLeft -= 1; }
                     CurShipSize = 0;
                     HitMe(Target);
@@ -175,8 +183,19 @@ namespace BattleShip
 
             foreach (Cell TryCell in MyOne)
             {
-                if (TryCell.X == 0 || TryCell.X == 9 || TryCell.Y == 0 || TryCell.Y == 9 ||
-                    TryCell.X == 1 || TryCell.X == 8 || TryCell.Y == 1 || TryCell.Y == 8)
+                if (TryCell.X == 0 || TryCell.X == 9 ||
+                    TryCell.X == 1 || TryCell.X == 8)
+                {
+                    ShootQueue.Enqueue(TryCell);
+                    //MyOne.Remove(TryCell);
+                }
+
+            }
+
+            foreach (Cell TryCell in MyOne)
+            {
+                if (TryCell.Y == 0 || TryCell.Y == 9 ||
+                    TryCell.Y == 1 || TryCell.Y == 8)
                 {
                     ShootQueue.Enqueue(TryCell);
                     //MyOne.Remove(TryCell);
@@ -238,6 +257,35 @@ namespace BattleShip
                 int ListNum = MyRnd.Next(0, NewMass.Count);
                 ShootQueue.Enqueue(NewMass[ListNum]);
                 NewMass.RemoveAt(ListNum);
+            }
+        }
+        private void Reload2()
+        {
+            List<Cell> NewMass = new List<Cell>();
+            while (ShootQueue.Count > 0)
+            {
+                NewMass.Add(ShootQueue.Dequeue());
+            }
+            List<Cell> MyTwo = new List<Cell>();
+            List<Cell> MyOne = new List<Cell>();
+
+            foreach (Cell NewCell in NewMass)
+            {
+                if ((NewCell.X + NewCell.Y) % 2 == 0) { MyTwo.Add(NewCell); }
+                else { MyOne.Add(NewCell); }
+            }
+            Random MyRnd = new Random();
+            while (MyOne.Count > 0)
+            {
+                int ListNum = MyRnd.Next(0, MyOne.Count);
+                ShootQueue.Enqueue(MyOne[ListNum]);
+                MyOne.RemoveAt(ListNum);
+            }
+            while (MyTwo.Count > 0)
+            {
+                int ListNum = MyRnd.Next(0, MyTwo.Count);
+                ShootQueue.Enqueue(MyTwo[ListNum]);
+                MyTwo.RemoveAt(ListNum);
             }
         }
     }
