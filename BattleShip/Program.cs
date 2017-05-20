@@ -20,7 +20,7 @@ namespace BattleShip
             channel.QueueDeclare(outQueue, exclusive: false);
 
             // Отправить сообщение
-            channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("start: USUAL"));
+            channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("start: debug"));
             Console.WriteLine("Сообщение отправлено");
 
             // Слушатель входящих сообщений
