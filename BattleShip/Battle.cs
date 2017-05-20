@@ -35,14 +35,19 @@ namespace MyBatle
                 ShootQueue.Enqueue(CurCell);
             }
         }
-        
+
         private void AnalizaAns(string Ans, Cell Target)
         {
-            if(Ans=="HIT")
+            switch (Ans)
             {
-
+                case "HIT":
+                    
+                break;
+                case "":
+                    break;
             }
         }
+
         private List<Cell> FindNotShoot(Cell Target)
         {
             List<Cell> List = new List<Cell>();
