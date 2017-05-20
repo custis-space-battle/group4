@@ -11,7 +11,6 @@ namespace BattleShip
         private bool[,] Map = new bool[10, 10] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
-        int count = 0;
 
         public  LetsShoot()
         {
@@ -22,7 +21,7 @@ namespace BattleShip
             {
                 for(int j=0;j<10; j+=2)
                 {
-                        CurCell = new Cell();
+                       CurCell = new Cell();
                         CurCell.X = i ;
                         CurCell.Y = j;
                         ShootQueue.Enqueue(CurCell);
@@ -61,7 +60,6 @@ namespace BattleShip
                     ShootQueue.Enqueue(CurCell);
                 }
             }
-            Console.WriteLine(count++);
         }
 
         public void AnalizaAns(string Ans, Cell Target)
@@ -74,7 +72,7 @@ namespace BattleShip
                     for (int i=1; i<=9; i += 2)
                         {
                             CurCell = Next(Target, i);
-                            if (CurCell != null) { Map[Target.X, Target.Y] = true; }
+                            if (CurCell != null) { Map[CurCell.X, CurCell.Y] = true; }
                         }
                     for (int i = 2; i <= 9; i += 2)
                         {
@@ -106,6 +104,7 @@ namespace BattleShip
                     NewShoot = Shoot();
                 }
             }
+           // Console.WriteLine(Map[NewShoot.X, NewShoot.Y]);
             return NewShoot;
         }
 
