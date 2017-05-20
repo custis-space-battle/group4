@@ -1,8 +1,0 @@
-C:\BattleShip\BattleShip\BattleShip\obj\Debug\BattleShip.csprojResolveAssemblyReference.cache
-C:\BattleShip\BattleShip\BattleShip\bin\Debug\BattleShip.exe.config
-C:\BattleShip\BattleShip\BattleShip\bin\Debug\BattleShip.exe
-C:\BattleShip\BattleShip\BattleShip\bin\Debug\BattleShip.pdb
-C:\BattleShip\BattleShip\BattleShip\bin\Debug\RabbitMQ.Client.dll
-C:\BattleShip\BattleShip\BattleShip\bin\Debug\RabbitMQ.Client.xml
-C:\BattleShip\BattleShip\BattleShip\obj\Debug\BattleShip.exe
-C:\BattleShip\BattleShip\BattleShip\obj\Debug\BattleShip.pdb
