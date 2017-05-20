@@ -27,7 +27,7 @@ namespace BattleShip
             for (int i = 1; i < 100; i += 2)
             {
                 Cell CurCell = new Cell();
-                CurCell.X = i / 10 + 1;
+                CurCell.X = i / 10 ;
                 CurCell.Y = i % 10;
                 ShootQueue.Enqueue(CurCell);
             }
@@ -63,18 +63,15 @@ namespace BattleShip
 
         public Cell Shoot ()
         {
-            Cell NewShoot = new Cell();
+            Cell NewShoot = null;
             NewShoot = GetShoot();
             if (NewShoot == null) { return null; }
             else
             {
-                if (!Map[NewShoot.X, NewShoot.Y])
-                { return NewShoot; }
+                if (!Map[NewShoot.X, NewShoot.Y]) { return NewShoot; }
                 else
                 {
                     NewShoot = Shoot();
-                    Console.WriteLine(NewShoot.X);
-                    Console.WriteLine(NewShoot.Y);
                     return NewShoot;
                 }
             }
@@ -83,10 +80,8 @@ namespace BattleShip
         private Cell GetShoot()
         {
             Cell NewShoot = null;
-           // Console.WriteLine("ok get");
             if (PriorShoot.Count == 0)
             {
-               // Console.WriteLine("ok get1");
                 if (ShootQueue.Count != 0) { NewShoot = ShootQueue.Dequeue(); }
                 else { return null; }
             }
