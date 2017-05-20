@@ -27,7 +27,7 @@ namespace BattleShip
                         ShootQueue.Enqueue(CurCell);
                 }
             }
-            for (int i = 0; i < 10; i+=2)
+            for (int i = 1; i < 10; i+=2)
             {
                 for (int j = 1; j < 10; j+=2)
                 {
@@ -40,9 +40,9 @@ namespace BattleShip
                     }
                 }
             }
-            for (int i = 1; i < 10; i += 2)
+            for (int i = 0; i < 10; i += 2)
             {
-                for (int j = 0; j < 10; j += 2)
+                for (int j = 1; j < 10; j += 2)
                 {
                     CurCell = new Cell();
                     CurCell.X = i;
@@ -52,7 +52,7 @@ namespace BattleShip
             }
             for (int i = 1; i < 10; i += 2)
             {
-                for (int j = 1; j < 10; j += 2)
+                for (int j = 0; j < 10; j += 2)
                 {
                     CurCell = new Cell();
                     CurCell.X = i;
