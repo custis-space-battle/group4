@@ -181,28 +181,20 @@ namespace BattleShip
             }
             Random MyRnd = new Random();
 
-            foreach (Cell TryCell in MyOne)
+            List<int> Trying = new List<int>();
+            for(int i=0; i<4;i++)
             {
-                if (TryCell.X == 0 || TryCell.X == 9 ||
-                    TryCell.X == 1 || TryCell.X == 8)
-                {
-                    ShootQueue.Enqueue(TryCell);
-                    //MyOne.Remove(TryCell);
-                }
-
+                Trying.Add(i + 1);
             }
 
-            foreach (Cell TryCell in MyOne)
+            int CheckInt;
+            while(Trying.Count>0)
             {
-                if (TryCell.Y == 0 || TryCell.Y == 9 ||
-                    TryCell.Y == 1 || TryCell.Y == 8)
-                {
-                    ShootQueue.Enqueue(TryCell);
-                    //MyOne.Remove(TryCell);
-                }
-
+                CheckInt = MyRnd.Next(0, Trying.Count);
+                SortNum(Trying[CheckInt], MyOne);
+                Trying.RemoveAt(CheckInt);
             }
-
+            
             while (MyOne.Count > 0)
             {
                 int ListNum = MyRnd.Next(0, MyOne.Count);
@@ -286,6 +278,47 @@ namespace BattleShip
                 int ListNum = MyRnd.Next(0, MyTwo.Count);
                 ShootQueue.Enqueue(MyTwo[ListNum]);
                 MyTwo.RemoveAt(ListNum);
+            }
+        }
+
+        private void SortNum(int Num, List<Cell> MyOne)
+        {
+            int i;
+            int j;
+            switch(Num)
+            {
+                case 1:
+                case 3:
+                    i = 0;
+                    j = 1;
+                    break;
+                default:
+                    i = 8;
+                    j = 9;
+                    break;
+            }
+
+            if (Num == 1 || Num == 2)
+            {
+                foreach (Cell TryCell in MyOne)
+                {
+                    if (TryCell.X == i || TryCell.X == j)
+                    {
+                        ShootQueue.Enqueue(TryCell);
+                        //MyOne.Remove(TryCell);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Cell TryCell in MyOne)
+                {
+                    if (TryCell.Y == i || TryCell.Y == j)
+                    {
+                        ShootQueue.Enqueue(TryCell);
+                        //MyOne.Remove(TryCell);
+                    }
+                }
             }
         }
     }
