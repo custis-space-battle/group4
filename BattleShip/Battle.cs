@@ -191,7 +191,7 @@ namespace BattleShip
             while (MyTwo.Count > 0)
             {
                 int ListNum = MyRnd.Next(0, MyTwo.Count);
-                ShootQueue.Enqueue(MyOne[ListNum]);
+                ShootQueue.Enqueue(MyTwo[ListNum]);
                 MyTwo.RemoveAt(ListNum);
             }
         }
