@@ -27,7 +27,7 @@ namespace BattleShip
             for (int i = 1; i < 100; i += 2)
             {
                 Cell CurCell = new Cell();
-                CurCell.X = i / 10 + 1;
+                CurCell.X = i / 10 ;
                 CurCell.Y = i % 10;
                 ShootQueue.Enqueue(CurCell);
             }
@@ -82,7 +82,7 @@ namespace BattleShip
             Cell NewShoot = null;
             if (PriorShoot.Count == 0)
             {
-                if (ShootQueue.Count == 0) { NewShoot = ShootQueue.Dequeue(); }
+                if (ShootQueue.Count != 0) { NewShoot = ShootQueue.Dequeue(); }
                 else { return null; }
             }
             else { NewShoot = PriorShoot.Dequeue(); }
