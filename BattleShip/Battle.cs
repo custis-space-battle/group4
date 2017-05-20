@@ -11,7 +11,8 @@ namespace BattleShip
         private bool[,] Map = new bool[10, 10] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
-        
+        int count = 0;
+
         public  LetsShoot()
         {
             ShootQueue = new Queue<Cell>();
@@ -60,7 +61,7 @@ namespace BattleShip
                     ShootQueue.Enqueue(CurCell);
                 }
             }
-
+            Console.WriteLine(count++);
         }
 
         public void AnalizaAns(string Ans, Cell Target)
