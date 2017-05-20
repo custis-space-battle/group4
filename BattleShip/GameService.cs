@@ -65,10 +65,7 @@ namespace BattleShip
             {
                 Cell curShoot = new Cell();         
                 curShoot = battle.Shoot();
-                Console.WriteLine(curShoot.X);
-                Console.WriteLine(curShoot.Y);
-
-                string curShootString = $"{ curShoot.X },{ curShoot.Y }";
+                string curShootString = $"{ (curShoot.X + 1) },{ (curShoot.Y + 1) }";
                 channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes(curShootString));
             }
 
