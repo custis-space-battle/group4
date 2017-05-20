@@ -63,15 +63,18 @@ namespace BattleShip
 
         public Cell Shoot ()
         {
-            Cell NewShoot = null;
+            Cell NewShoot = new Cell();
             NewShoot = GetShoot();
             if (NewShoot == null) { return null; }
             else
             {
-                if (!Map[NewShoot.X, NewShoot.Y]) { return NewShoot; }
+                if (!Map[NewShoot.X, NewShoot.Y])
+                { return NewShoot; }
                 else
                 {
                     NewShoot = Shoot();
+                    Console.WriteLine(NewShoot.X);
+                    Console.WriteLine(NewShoot.Y);
                     return NewShoot;
                 }
             }
@@ -80,9 +83,11 @@ namespace BattleShip
         private Cell GetShoot()
         {
             Cell NewShoot = null;
+           // Console.WriteLine("ok get");
             if (PriorShoot.Count == 0)
             {
-                if (ShootQueue.Count == 0) { NewShoot = ShootQueue.Dequeue(); }
+               // Console.WriteLine("ok get1");
+                if (ShootQueue.Count != 0) { NewShoot = ShootQueue.Dequeue(); }
                 else { return null; }
             }
             else { NewShoot = PriorShoot.Dequeue(); }
