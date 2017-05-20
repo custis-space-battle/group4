@@ -35,7 +35,7 @@ namespace BattleShip
 
         static void ProcessIncomingMessage(object sender, BasicDeliverEventArgs e)
         {
-            Console.WriteLine(Encoding.Stre.Body);
+            Console.WriteLine(Encoding.UTF8.GetString(e.Body));
         }
     }
 }
