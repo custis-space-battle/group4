@@ -66,24 +66,25 @@ namespace BattleShip
         public void AnalizaAns(string Ans, Cell Target)
         {
             Map[Target.X, Target.Y] = true;
+            Cell CurCell;
             switch (Ans)
             {
                 case "HIT":
                     for (int i=1; i<=9; i += 2)
                         {
-                            Cell CurCell = Next(Target, i);
+                            CurCell = Next(Target, i);
                             if (CurCell != null) { Map[Target.X, Target.Y] = true; }
                         }
-                        for (int i = 2; i <= 9; i += 2)
+                    for (int i = 2; i <= 9; i += 2)
                         {
-                            Cell CurCell = Next(Target, i);
+                            CurCell = Next(Target, i);
                             if (CurCell != null) {PriorShoot.Enqueue(CurCell); }
                         }
                 break;
                 case "KILL":
                     while(PriorShoot.Count>0)
                     {
-                        Cell CurCell = PriorShoot.Dequeue();
+                        CurCell = PriorShoot.Dequeue();
                         Map[CurCell.X, CurCell.Y] = true;
                     }
                     break;
