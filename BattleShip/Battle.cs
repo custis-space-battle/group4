@@ -11,10 +11,7 @@ namespace MyBatle
         private bool[,] Map = new bool[9, 9] ;
         private Queue<Cell> ShootQueue=new Queue<Cell>();
         private Queue<Cell> PriorShoot = new Queue<Cell>();
-        static void Main(string[] args)
-        {
-            
-        }
+
         private struct Cell
         {
             public int XCoord;

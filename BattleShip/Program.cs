@@ -19,10 +19,6 @@ namespace BattleShip
             var outQueue = "group4";
             channel.QueueDeclare(outQueue, exclusive: false);
 
-            // Отправить сообщение
-            channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("start: debug"));
-            Console.WriteLine("Сообщение отправлено");
-
             // Слушатель входящих сообщений
             var consumer = new EventingBasicConsumer(channel);
             var incQueue = "to_group4";
@@ -31,11 +27,15 @@ namespace BattleShip
             channel.BasicConsume(incQueue, true, consumer);
 
             consumer.Received += ProcessIncomingMessage;
+
+            // Отправить сообщение
+            channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("start: bot"));
+            Console.WriteLine("Сообщение отправлено");
         }
 
         static void ProcessIncomingMessage(object sender, BasicDeliverEventArgs e)
         {
-            Console.WriteLine(Encoding.UTF8.GetString(e.Body));
+            Console.WriteLine(Encoding.UTF8.GetString(e.Body)); 
         }
     }
 }
