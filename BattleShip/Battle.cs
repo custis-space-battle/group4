@@ -6,23 +6,18 @@ using System.Threading.Tasks;
 
 namespace MyBatle
 {
-    class Dima
+    class LetsShoot
     {
-        private CellState[,] Map = new CellState[9, 9] ;
-        private Queue<Cell> ShootQueue=new Queue<Cell>();
-        private Queue<Cell> PriorShoot = new Queue<Cell>();
-
-        enum CellState
+        private bool[,] Map = new bool[9, 9] ;
+        private Queue<Cell> ShootQueue;
+        private Queue<Cell> PriorShoot;
+        
+        private  LetsShoot()
         {
-            NotShoot,
-            Miss,
-            ShipHeat,
-            ShipDie
-        }
+            ShootQueue = new Queue<Cell>();
+            PriorShoot = new Queue<Cell>();
 
-        private void Prepare()
-        {
-            for(int i=0; i<100; i+=2)
+            for (int i=0; i<100; i+=2)
             {
                 Cell CurCell = new Cell();
                 CurCell.X = i / 10+1;
@@ -40,16 +35,14 @@ namespace MyBatle
 
         public void AnalizaAns(string Ans, Cell Target)
         {
+            Map[Target.X, Target.Y] = true;
             switch (Ans)
             {
                 case "HIT":
-                   //if(PriorShoot.Count==0)
-                    //{
-                        Map[Target.X, Target.Y] = CellState.ShipHeat;
-                        for(int i=1; i<=9; i += 2)
+                    for (int i=1; i<=9; i += 2)
                         {
                             Cell CurCell = Next(Target, i);
-                            if (CurCell != null) { Map[Target.X, Target.Y] = CellState.Miss; }
+                            if (CurCell != null) { Map[Target.X, Target.Y] = true; }
                         }
                         for (int i = 2; i <= 9; i += 2)
                         {
@@ -58,8 +51,12 @@ namespace MyBatle
                         }
                     //}
                 break;
-                case "MISS":
-                    Map[Target.X, Target.Y] =CellState.Miss;
+                case "KILL":
+                    while(PriorShoot.Count>0)
+                    {
+                        Cell CurCell = PriorShoot.Dequeue();
+                        Map[CurCell.X, CurCell.Y] = true;
+                    }
                     break;
             }
         }
@@ -71,7 +68,7 @@ namespace MyBatle
             if (NewShoot == null) { return null; }
             else
             {
-                if (Map[NewShoot.X, NewShoot.Y] != CellState.NotShoot) { return NewShoot; }
+                if (!Map[NewShoot.X, NewShoot.Y]) { return NewShoot; }
                 else
                 {
                     NewShoot = Shoot();
