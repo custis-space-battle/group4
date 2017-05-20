@@ -8,7 +8,7 @@ namespace BattleShip
 {
     public class LetsShoot
     {
-        private bool[,] Map = new bool[9, 9] ;
+        private bool[,] Map = new bool[10, 10] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
         
