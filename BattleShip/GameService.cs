@@ -63,10 +63,18 @@ namespace BattleShip
             }
 
             if (Encoding.UTF8.GetString(e.Body) == "fire!")
-            {                 
+            {
                 curShoot = battle.Shoot();
-  
-                string curShootString = $"{ (curShoot.X + 1) },{ (curShoot.Y + 1) }";
+                string curShootString;
+
+                if (curShoot == null)
+                {
+                    curShoot = new Cell();
+                    curShoot.X = 1;
+                    curShoot.Y = 1;
+                }
+
+                curShootString = $"{ (curShoot.X + 1) },{ (curShoot.Y + 1) }";
                 channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes(curShootString));
             }
 
@@ -86,6 +94,12 @@ namespace BattleShip
             if (Encoding.UTF8.GetString(e.Body).Contains("fire result: KILL"))
             {
                 battle.AnalizaAns("KILL", curShoot);
+            }
+
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body).Contains("SOLVE_EQ"))
+            {
+                channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("1"));
             }
 
             // Передать координаты своих кораблей
