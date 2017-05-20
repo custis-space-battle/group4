@@ -6,65 +6,171 @@ using System.Threading.Tasks;
 
 namespace MyBatle
 {
-    class Program
+    class Dima
     {
-        private bool[,] Map = new bool[9, 9] ;
+        private CellState[,] Map = new CellState[9, 9] ;
         private Queue<Cell> ShootQueue=new Queue<Cell>();
         private Queue<Cell> PriorShoot = new Queue<Cell>();
 
-        private struct Cell
+        enum CellState
         {
-            public int XCoord;
-            public int YCoord;
-            public bool Shooted;
+            NotShoot,
+            Miss,
+            ShipHeat,
+            ShipDie
         }
+
         private void Prepare()
         {
             for(int i=0; i<100; i+=2)
             {
                 Cell CurCell = new Cell();
-                CurCell.XCoord = i / 10+1;
-                CurCell.YCoord = i % 10;
+                CurCell.X = i / 10+1;
+                CurCell.Y = i % 10;
                 ShootQueue.Enqueue(CurCell);
             }
             for (int i = 1; i < 100; i += 2)
             {
                 Cell CurCell = new Cell();
-                CurCell.XCoord = i / 10 + 1;
-                CurCell.YCoord = i % 10;
+                CurCell.X = i / 10 + 1;
+                CurCell.Y = i % 10;
                 ShootQueue.Enqueue(CurCell);
             }
         }
 
-        private void AnalizaAns(string Ans, Cell Target)
+        public void AnalizaAns(string Ans, Cell Target)
         {
             switch (Ans)
             {
                 case "HIT":
-                    
+                   //if(PriorShoot.Count==0)
+                    //{
+                        Map[Target.X, Target.Y] = CellState.ShipHeat;
+                        for(int i=1; i<=9; i += 2)
+                        {
+                            Cell CurCell = Next(Target, i);
+                            if (CurCell != null) { Map[Target.X, Target.Y] = CellState.Miss; }
+                        }
+                        for (int i = 2; i <= 9; i += 2)
+                        {
+                            Cell CurCell = Next(Target, i);
+                            if (CurCell != null) {PriorShoot.Enqueue(CurCell); }
+                        }
+                    //}
                 break;
-                case "":
+                case "MISS":
+                    Map[Target.X, Target.Y] =CellState.Miss;
                     break;
             }
         }
 
-        private List<Cell> FindNotShoot(Cell Target)
+        public Cell Shoot ()
         {
-            List<Cell> List = new List<Cell>();
-            for(int i=Target.XCoord-1; i<=Target.XCoord+1; i++)
+            Cell NewShoot = null;
+            NewShoot = GetShoot();
+            if (NewShoot == null) { return null; }
+            else
             {
-                for (int j = Target.YCoord - 1 ; j <= Target.YCoord + 1; j++)
+                if (Map[NewShoot.X, NewShoot.Y] != CellState.NotShoot) { return NewShoot; }
+                else
                 {
-                    if(i>=0 && j >= 0 && !Map[i,j])
-                    {
-                        Cell CurCell = new Cell();
-                        CurCell.XCoord = i;
-                        CurCell.YCoord = j;
-                        List.Add(CurCell);
-                    }
+                    NewShoot = Shoot();
+                    return NewShoot;
                 }
             }
-            return List;
+        }
+
+        private Cell GetShoot()
+        {
+            Cell NewShoot = null;
+            if (PriorShoot.Count == 0)
+            {
+                if (ShootQueue.Count == 0) { NewShoot = ShootQueue.Dequeue(); }
+                else { return null; }
+            }
+            else { NewShoot = PriorShoot.Dequeue(); }
+            return NewShoot;
+        }
+
+        private Cell Next(Cell Target, int Num)
+        {
+            Cell NewCel = null;
+            switch (Num)
+            {
+                case 1:
+                    if (Target.X > 0 && Target.Y > 0)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X - 1;
+                        NewCel.Y = Target.Y - 1;
+                    }
+                    break;
+                case 2:
+                    if (Target.Y > 0)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X;
+                        NewCel.Y = Target.Y - 1;
+                    }
+                    break;
+                case 3:
+                    if (Target.X < 9 && Target.Y > 0)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X + 1;
+                        NewCel.Y = Target.Y - 1;
+                    }
+                    break;
+                case 4:
+                    if (Target.X > 0)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X - 1;
+                        NewCel.Y = Target.Y;
+                    }
+                    break;
+                case 6:
+                    if (Target.X < 9)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X + 1;
+                        NewCel.Y = Target.Y;
+                    }
+                    break;
+                case 7:
+                    if (Target.X > 0 && Target.Y < 9)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X - 1;
+                        NewCel.Y = Target.Y + 1;
+                    }
+                    break;
+                case 8:
+                    if (Target.Y < 9)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X;
+                        NewCel.Y = Target.Y + 1;
+                    }
+                    break;
+                case 9:
+                    if (Target.X < 9 && Target.Y < 9)
+                    {
+                        NewCel = new Cell();
+                        NewCel.X = Target.X + 1;
+                        NewCel.Y = Target.Y + 1;
+                    }
+                    break;
+            }
+            return NewCel;
         }
     }
+
+    class Cell
+    {
+        public int X;
+        public int Y;
+        public string State;
+    }
+
 }
