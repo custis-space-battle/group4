@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBatle
+namespace BattleShip
 {
-    class LetsShoot
+    public class LetsShoot
     {
         private bool[,] Map = new bool[9, 9] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
         
-        private  LetsShoot()
+        public  LetsShoot()
         {
             ShootQueue = new Queue<Cell>();
             PriorShoot = new Queue<Cell>();
@@ -163,7 +163,7 @@ namespace MyBatle
         }
     }
 
-    class Cell
+    public  class Cell
     {
         public int X;
         public int Y;

@@ -10,6 +10,7 @@ namespace BattleShip
         private string outQueue;
         private string incQueue;
         private IModel channel;
+        LetsShoot battle;
 
         public void OnStart()
         {
@@ -33,6 +34,8 @@ namespace BattleShip
             channel.BasicConsume(incQueue, true, consumer);
 
             GetMode();
+
+            battle = new  LetsShoot();
 
             consumer.Received += ProcessIncomingMessage;
         }
@@ -60,17 +63,23 @@ namespace BattleShip
             // Передать координаты своих кораблей
             if (Encoding.UTF8.GetString(e.Body) == "fire!")
             {
-                channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("2,3"));
+                Cell curShoot = new Cell();         
+                curShoot = battle.Shoot();
+                Console.WriteLine(curShoot.X);
+                Console.WriteLine(curShoot.Y);
+
+                string curShootString = $"{ curShoot.X },{ curShoot.Y }";
+                channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes(curShootString));
             }
 
             // Передать координаты своих кораблей
-            if (Encoding.UTF8.GetString(e.Body) == "MISS!")
+            if (Encoding.UTF8.GetString(e.Body) == "MISS")
             {
              
             }
 
             // Передать координаты своих кораблей
-            if (Encoding.UTF8.GetString(e.Body) == "MISSAGAIN!")
+            if (Encoding.UTF8.GetString(e.Body) == "MISSAGAIN")
             {
                
             }
