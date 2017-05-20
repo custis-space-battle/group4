@@ -163,8 +163,7 @@ namespace BattleShip
             List<Cell> MyTwo = new List<Cell>();
             List<Cell> MyOne = new List<Cell>();
             Cell CurCell;
-
-
+            
 
             for (int i=0; i<100; i++)
             {
@@ -176,10 +175,11 @@ namespace BattleShip
 
             foreach (Cell TryCell in MyOne)
             {
-                if (TryCell.X == 0 || TryCell.X == 9 || TryCell.Y == 0 || TryCell.Y == 9)
+                if (TryCell.X == 0 || TryCell.X == 9 || TryCell.Y == 0 || TryCell.Y == 9 ||
+                    TryCell.X == 1 || TryCell.X == 8 || TryCell.Y == 1 || TryCell.Y == 8)
                 {
                     ShootQueue.Enqueue(TryCell);
-                   // MyOne.Remove(TryCell);
+                    //MyOne.Remove(TryCell);
                 }
 
             }
