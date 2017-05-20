@@ -9,8 +9,8 @@ namespace BattleShip
     {
         static void Main()
         {
-            var bot = new Game();
-            bot.OnStart();
+            var service = new GameService();
+            service.OnStart();
         }
     }
 }

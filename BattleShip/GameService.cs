@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BattleShip
 {
-    public class Game
+    public class GameService
     {
         private string outQueue;
         private string incQueue;
@@ -32,10 +32,9 @@ namespace BattleShip
             channel.QueueBind(incQueue, incQueue, incQueue);
             channel.BasicConsume(incQueue, true, consumer);
 
-            consumer.Received += ProcessIncomingMessage;
-
-            // Выбрать мод
             GetMode();
+
+            consumer.Received += ProcessIncomingMessage;
         }
 
         void GetMode()
@@ -64,6 +63,17 @@ namespace BattleShip
                 channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("2,3"));
             }
 
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body) == "MISS!")
+            {
+             
+            }
+
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body) == "MISSAGAIN!")
+            {
+               
+            }
         }
     }
 }
