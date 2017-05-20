@@ -17,19 +17,31 @@ namespace BattleShip
             ShootQueue = new Queue<Cell>();
             PriorShoot = new Queue<Cell>();
 
-            for (int i=0; i<100; i+=2)
+            for (int i=0; i<10; i++)
             {
-                Cell CurCell = new Cell();
-                CurCell.X = i / 10;
-                CurCell.Y = i % 10;
-                ShootQueue.Enqueue(CurCell);
+                for(int j=0;j<10; j++)
+                {
+                    if(i!=j)
+                    {
+                        Cell CurCell = new Cell();
+                        CurCell.X = i ;
+                        CurCell.Y = j;
+                        ShootQueue.Enqueue(CurCell);
+                    }
+                }
             }
-            for (int i = 1; i < 100; i += 2)
+            for (int i = 0; i < 10; i++)
             {
-                Cell CurCell = new Cell();
-                CurCell.X = i / 10 ;
-                CurCell.Y = i % 10;
-                ShootQueue.Enqueue(CurCell);
+                for (int j = 0; j < 10; j++)
+                {
+                    if (i == j)
+                    {
+                        Cell CurCell = new Cell();
+                        CurCell.X = i;
+                        CurCell.Y = j;
+                        ShootQueue.Enqueue(CurCell);
+                    }
+                }
             }
         }
 
@@ -49,7 +61,6 @@ namespace BattleShip
                             Cell CurCell = Next(Target, i);
                             if (CurCell != null) {PriorShoot.Enqueue(CurCell); }
                         }
-                    //}
                 break;
                 case "KILL":
                     while(PriorShoot.Count>0)
@@ -57,6 +68,8 @@ namespace BattleShip
                         Cell CurCell = PriorShoot.Dequeue();
                         Map[CurCell.X, CurCell.Y] = true;
                     }
+                    break;
+                default:
                     break;
             }
         }
@@ -68,7 +81,7 @@ namespace BattleShip
             if (NewShoot == null) { return null; }
             else
             {
-                if (!Map[NewShoot.X, NewShoot.Y]) { return NewShoot; }
+                if (Map[NewShoot.X, NewShoot.Y]==false) { return NewShoot; }
                 else
                 {
                     NewShoot = Shoot();
