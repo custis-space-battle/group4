@@ -1,28 +1,30 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Text;
 
 namespace BattleShip
 {
     class Program
     {
-        void Main(string[] args)
+        static void Main(string[] args)
         {
             // Установить соединение
-            var connFactory = new ConnectionFactory { Uri = "amqp://group4:z3bPjU" };
+            var connFactory = new ConnectionFactory { Uri = "amqp://group4:z3bPjU@91.241.45.69/debug" };
             var connection = connFactory.CreateConnection();
             var channel = connection.CreateModel();
+            Console.WriteLine("Бот подключился к серверу");
 
             // Настройка отправки сообщения
             var outQueue = "group4";
             channel.QueueDeclare(outQueue, exclusive: false);
 
             // Отправить сообщение
-            byte[] body = new byte[1] { 255 };
-            channel.BasicPublish(outQueue, outQueue, null, body);
+            channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes("start: USUAL"));
+            Console.WriteLine("Сообщение отправлено");
 
             // Слушатель входящих сообщений
-            var consumer = new EventingBasicConsumer(;
+            var consumer = new EventingBasicConsumer(channel);
             var incQueue = "to_group4";
             channel.QueueDeclare(incQueue, exclusive: false);
             channel.QueueBind(incQueue, incQueue, incQueue);
@@ -31,9 +33,9 @@ namespace BattleShip
             consumer.Received += ProcessIncomingMessage;
         }
 
-        void ProcessIncomingMessage(object sender, RabbitMQ.Client.Events.BasicDeliverEventArgs e)
+        static void ProcessIncomingMessage(object sender, BasicDeliverEventArgs e)
         {
-            Console.Write("Бот подключился");
+            Console.WriteLine(Encoding.Stre.Body);
         }
     }
 }
