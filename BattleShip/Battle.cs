@@ -16,55 +16,8 @@ namespace BattleShip
         {
             ShootQueue = new Queue<Cell>();
             PriorShoot = new Queue<Cell>();
-            for(int i=0; i<10;i++)
-            {
-                for(int j=0;j<10;j++)
-                {
-                    if ((i + j) % 2 == 0) { ShootQueue.Enqueue(new Cell(i, j)); }
-                }
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    if ((i + j) % 2 != 0) { ShootQueue.Enqueue(new Cell(i, j)); }
-                }
-            }
-            //for (int i=0; i<10; i+=2)
-            //{
-            //    for(int j=0;j<10; j+=2)
-            //    {
-            //            CurCell = new Cell(i, j);
-            //            ShootQueue.Enqueue(CurCell);
-            //    }
-            //}
-            //for (int i = 1; i < 10; i+=2)
-            //{
-            //    for (int j = 1; j < 10; j+=2)
-            //    {
-            //        if (i == j)
-            //        {
-            //            CurCell = new Cell(i,j);
-            //            ShootQueue.Enqueue(CurCell);
-            //        }
-            //    }
-            //}
-            //for (int i = 0; i < 10; i += 2)
-            //{
-            //    for (int j = 1; j < 10; j += 2)
-            //    {
-            //        CurCell = new Cell(i,j);
-            //        ShootQueue.Enqueue(CurCell);
-            //    }
-            //}
-            //for (int i = 1; i < 10; i += 2)
-            //{
-            //    for (int j = 0; j < 10; j += 2)
-            //    {
-            //        CurCell = new Cell(i,j);
-            //        ShootQueue.Enqueue(CurCell);
-            //    }
-            //}
+            //OldIns();
+            TryCreate();
         }
 
         public void AnalizaAns(string Ans, Cell Target)
@@ -190,6 +143,59 @@ namespace BattleShip
                     break;
             }
             return NewCel;
+        }
+
+        private void TryCreate()
+        {
+            List<Cell> MyTwo = new List<Cell>();
+            List<Cell> MyOne = new List<Cell>();
+            Cell CurCell;
+
+            for (int i=0; i<100; i++)
+            {
+                CurCell = GetCell(i);
+                if ((CurCell.X + CurCell.Y) % 2 == 0) { MyTwo.Add(CurCell); }
+                else { MyOne.Add(CurCell); }
+            }
+            Random MyRnd = new Random();
+            
+            while (MyOne.Count > 0)
+            {
+                int ListNum = MyRnd.Next(0, MyOne.Count);
+                ShootQueue.Enqueue(MyOne[ListNum]);
+                MyOne.RemoveAt(ListNum);
+            }
+            while (MyTwo.Count > 0)
+            {
+                int ListNum = MyRnd.Next(0, MyTwo.Count);
+                ShootQueue.Enqueue(MyOne[ListNum]);
+                MyTwo.RemoveAt(ListNum);
+            }
+        }
+
+        private Cell GetCell(int i)
+        {
+            int x = i / 10;
+            int y = i % 10;
+            return new Cell(x, y);
+        }
+
+        private void OldIns()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if ((i + j) % 2 == 0) { ShootQueue.Enqueue(new Cell(i, j)); }
+                }
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if ((i + j) % 2 != 0) { ShootQueue.Enqueue(new Cell(i, j)); }
+                }
+            }
         }
     }
 
