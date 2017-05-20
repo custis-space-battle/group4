@@ -11,6 +11,7 @@ namespace BattleShip
         private string incQueue;
         private IModel channel;
         LetsShoot battle;
+        Cell curShoot;
 
         public void OnStart()
         {
@@ -36,6 +37,7 @@ namespace BattleShip
             GetMode();
 
             battle = new  LetsShoot();
+            curShoot = new Cell();
 
             consumer.Received += ProcessIncomingMessage;
         }
@@ -60,25 +62,42 @@ namespace BattleShip
                 Console.WriteLine($"Координаты отосланы");
             }
 
-            // Передать координаты своих кораблей
             if (Encoding.UTF8.GetString(e.Body) == "fire!")
-            {
-                Cell curShoot = new Cell();         
+            {                 
                 curShoot = battle.Shoot();
+  
                 string curShootString = $"{ (curShoot.X + 1) },{ (curShoot.Y + 1) }";
                 channel.BasicPublish(outQueue, outQueue, null, Encoding.UTF8.GetBytes(curShootString));
             }
 
             // Передать координаты своих кораблей
-            if (Encoding.UTF8.GetString(e.Body) == "MISS")
+            if (Encoding.UTF8.GetString(e.Body).Contains("fire result: MISS"))
             {
-             
+                battle.AnalizaAns("MISS", curShoot);
             }
 
             // Передать координаты своих кораблей
-            if (Encoding.UTF8.GetString(e.Body) == "MISSAGAIN")
+            if (Encoding.UTF8.GetString(e.Body).Contains("fire result: HIT"))
             {
-               
+                battle.AnalizaAns("HIT", curShoot);
+            }
+
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body).Contains("fire result: KILL"))
+            {
+                battle.AnalizaAns("KILL", curShoot);
+            }
+
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body).Contains("MISS_AGAIN"))
+            {
+                Console.WriteLine("111111111111111111111111111111");
+            }
+
+            // Передать координаты своих кораблей
+            if (Encoding.UTF8.GetString(e.Body).Contains("HIT_AGAIN"))
+            {
+                Console.WriteLine("111111111111111111111111111111");       
             }
         }
     }
