@@ -16,33 +16,51 @@ namespace BattleShip
         {
             ShootQueue = new Queue<Cell>();
             PriorShoot = new Queue<Cell>();
-
-            for (int i=0; i<10; i++)
+            Cell CurCell;
+            for (int i=0; i<10; i+=2)
             {
-                for(int j=0;j<10; j++)
+                for(int j=0;j<10; j+=2)
                 {
-                    if(i!=j)
-                    {
-                        Cell CurCell = new Cell();
+                        CurCell = new Cell();
                         CurCell.X = i ;
                         CurCell.Y = j;
                         ShootQueue.Enqueue(CurCell);
-                    }
                 }
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i+=2)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 1; j < 10; j+=2)
                 {
                     if (i == j)
                     {
-                        Cell CurCell = new Cell();
+                        CurCell = new Cell();
                         CurCell.X = i;
                         CurCell.Y = j;
                         ShootQueue.Enqueue(CurCell);
                     }
                 }
             }
+            for (int i = 1; i < 10; i += 2)
+            {
+                for (int j = 0; j < 10; j += 2)
+                {
+                    CurCell = new Cell();
+                    CurCell.X = i;
+                    CurCell.Y = j;
+                    ShootQueue.Enqueue(CurCell);
+                }
+            }
+            for (int i = 1; i < 10; i += 2)
+            {
+                for (int j = 1; j < 10; j += 2)
+                {
+                    CurCell = new Cell();
+                    CurCell.X = i;
+                    CurCell.Y = j;
+                    ShootQueue.Enqueue(CurCell);
+                }
+            }
+
         }
 
         public void AnalizaAns(string Ans, Cell Target)
