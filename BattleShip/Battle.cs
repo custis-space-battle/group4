@@ -11,11 +11,15 @@ namespace BattleShip
         private bool[,] Map = new bool[10, 10] ;
         private Queue<Cell> ShootQueue;
         private Queue<Cell> PriorShoot;
+        private int ShipsLeft;
+        private int CurShipSize;
 
         public  LetsShoot()
         {
             ShootQueue = new Queue<Cell>();
             PriorShoot = new Queue<Cell>();
+            ShipsLeft = 6;
+            CurShipSize = 0;
             //OldIns();
             TryCreate();
         }
@@ -23,12 +27,20 @@ namespace BattleShip
         public void AnalizaAns(string Ans, Cell Target)
         {
             Map[Target.X, Target.Y] = true;
+            if(ShipsLeft==0)
+            {
+                Reload();
+                ShipsLeft = 10;
+            }
             switch (Ans)
             {
                 case "HIT":
+                    CurShipSize += 1;
                     HitMe(Target);
                 break;
                 case "KILL":
+                    if (CurShipSize > 0) { ShipsLeft -= 1; }
+                    CurShipSize = 0;
                     HitMe(Target);
                     ShootMe();
                     break;
@@ -36,6 +48,7 @@ namespace BattleShip
                     break;
             }
         }
+
         private void HitMe(Cell Target)
         {
             Cell CurCell;
@@ -151,6 +164,16 @@ namespace BattleShip
             List<Cell> MyOne = new List<Cell>();
             Cell CurCell;
 
+            foreach(Cell TryCell in MyOne)
+            {
+                if(TryCell.X==0 || TryCell.X==9 || TryCell.Y==0|| TryCell.Y==9)
+                {
+                    ShootQueue.Enqueue(TryCell);
+                    MyOne.Remove(TryCell);
+                }
+
+            }
+
             for (int i=0; i<100; i++)
             {
                 CurCell = GetCell(i);
@@ -197,13 +220,30 @@ namespace BattleShip
                 }
             }
         }
+
+        private void Reload()
+        {
+
+            List<Cell> NewMass=new List<Cell>();
+            while(ShootQueue.Count>0)
+            {
+                NewMass.Add(ShootQueue.Dequeue());
+            }
+            Random MyRnd = new Random();
+
+            while (NewMass.Count > 0)
+            {
+                int ListNum = MyRnd.Next(0, NewMass.Count);
+                ShootQueue.Enqueue(NewMass[ListNum]);
+                NewMass.RemoveAt(ListNum);
+            }
+        }
     }
 
     public  class Cell
     {
         public int X;
         public int Y;
-        public string State;
         public Cell(int I, int J)
         {
             X = I;
