@@ -100,13 +100,12 @@ namespace BattleShip
             if (NewShoot == null) { return null; }
             else
             {
-                if (Map[NewShoot.X, NewShoot.Y]==false) { return NewShoot; }
-                else
+                if (Map[NewShoot.X, NewShoot.Y])
                 {
                     NewShoot = Shoot();
-                    return NewShoot;
                 }
             }
+            return NewShoot;
         }
 
         private Cell GetShoot()
