@@ -20,7 +20,7 @@ namespace BattleShip
             for (int i=0; i<100; i+=2)
             {
                 Cell CurCell = new Cell();
-                CurCell.X = i / 10+1;
+                CurCell.X = i / 10;
                 CurCell.Y = i % 10;
                 ShootQueue.Enqueue(CurCell);
             }
