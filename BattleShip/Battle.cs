@@ -163,16 +163,7 @@ namespace BattleShip
             List<Cell> MyTwo = new List<Cell>();
             List<Cell> MyOne = new List<Cell>();
             Cell CurCell;
-
-            foreach(Cell TryCell in MyOne)
-            {
-                if(TryCell.X==0 || TryCell.X==9 || TryCell.Y==0|| TryCell.Y==9)
-                {
-                    ShootQueue.Enqueue(TryCell);
-                    MyOne.Remove(TryCell);
-                }
-
-            }
+            
 
             for (int i=0; i<100; i++)
             {
@@ -181,7 +172,18 @@ namespace BattleShip
                 else { MyOne.Add(CurCell); }
             }
             Random MyRnd = new Random();
-            
+
+            foreach (Cell TryCell in MyOne)
+            {
+                if (TryCell.X == 0 || TryCell.X == 9 || TryCell.Y == 0 || TryCell.Y == 9 ||
+                    TryCell.X == 1 || TryCell.X == 8 || TryCell.Y == 1 || TryCell.Y == 8)
+                {
+                    ShootQueue.Enqueue(TryCell);
+                    //MyOne.Remove(TryCell);
+                }
+
+            }
+
             while (MyOne.Count > 0)
             {
                 int ListNum = MyRnd.Next(0, MyOne.Count);
